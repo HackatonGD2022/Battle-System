@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class Stats : MonoBehaviour
@@ -25,6 +26,7 @@ public class Stats : MonoBehaviour
     [SerializeField]
     private float counterattack;
 
+    private bool died = false;
 
     public int Health
     {
@@ -44,11 +46,19 @@ public class Stats : MonoBehaviour
         set { actionPoints = value; }
     }
 
+    public bool IsDied()
+    {
+        return died;
+    }
+
     public void TakeDamage(int damage)
     {
         health -= damage;
         if (health <= 0)
-            Destroy(gameObject);
+        {
+            gameObject.SetActive(false);
+            died = true;
+        }
     }
 
     // Start is called before the first frame update

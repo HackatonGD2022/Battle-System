@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
     private Slider uiHealth;
 
     [SerializeField]
+    private TMPro.TextMeshProUGUI uiMessage;
+
+    [SerializeField]
     private GameObject fightMenu;
 
     private Stats stats;
@@ -20,7 +23,7 @@ public class Player : MonoBehaviour
 
     public void AddItem(Item item)
     {
-        Debug.Log(item.ToString());
+        SetMessage("Добавлено: " + item.ToString());
         items.AddLast(item);
     }
 
@@ -32,6 +35,11 @@ public class Player : MonoBehaviour
     public void HideFightMenu()
     {
         fightMenu.SetActive(false);
+    }
+
+    public void SetMessage(string text)
+    {
+        uiMessage.text = text;
     }
 
     // Start is called before the first frame update

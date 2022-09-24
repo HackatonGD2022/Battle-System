@@ -47,6 +47,7 @@ public class Fight : MonoBehaviour
         selectedEnemy.GetComponent<Light>().enabled = true;
 
         SetQueue();
+        player.SetMessage("Битва началась");
     }
 
     public void SetQueue()
@@ -68,29 +69,52 @@ public class Fight : MonoBehaviour
             // ноги, руки
             case 0:
                 if (takeDamage >= 20)
+                {
                     objTwo.TakeDamage(1);
+                    player.SetMessage("Попадание по конечностям");
+                } else
+                {
+                    player.SetMessage("Промах по конечностям");
+                }
                 break;
 
             // сердце
             case 1:
                 if (takeDamage >= 95)
-                    objTwo.TakeDamage(2);
+                {
+                    objTwo.TakeDamage(1);
+                    player.SetMessage("Попадание в сердце");
+                } else {
+                    player.SetMessage("Промах по сердцу");
+                }
                 break;
 
             // тело
             case 2:
                 if (takeDamage >= 30)
+                {
                     objTwo.TakeDamage(1);
+                    player.SetMessage("Попадание в туловище");
+                } else
+                {
+                    player.SetMessage("Промах по туловищу");
+                }
                 break;
 
             // голова
             case 3:
                 if (takeDamage >= 50)
+                {
                     objTwo.TakeDamage(1);
+                    player.SetMessage("Попадание по голове");
+                } else
+                {
+                    player.SetMessage("Промах по голове");
+                }
                 break;
 
             default:
-                // Промах
+                player.SetMessage("Промах");
                 break;
 
         }
@@ -99,6 +123,7 @@ public class Fight : MonoBehaviour
 
     public void ClickFight()
     {
+        Debug.Log("ClickFight");
         Attack(player.GetComponent<Stats>(), selectedEnemy.GetComponent<Stats>());
     }
 
@@ -133,6 +158,19 @@ public class Fight : MonoBehaviour
             playerTurn = false;
             selectedEnemy = null;
         }
+    }
+
+    private bool HasAliveEnemy()
+    {
+        var isSomeoneAlive = false;
+        foreach (Enemy enemy in enemyList)
+        {
+            if (!enemy.GetComponent<Stats>().IsDied())
+            {
+                isSomeoneAlive = true;
+            }
+        }
+        return isSomeoneAlive;
     }
 
 
@@ -186,5 +224,11 @@ public class Fight : MonoBehaviour
             }
             FinishTurn();
         }
+
+        if (player.GetComponent<Stats>().IsDied())
+            player.SetMessage("Скелеты победили");
+
+        if (!HasAliveEnemy())
+            player.SetMessage("Игрок победил");
     }
 }
