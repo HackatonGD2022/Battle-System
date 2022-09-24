@@ -13,6 +13,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Camera playerCamera;
 
+    [SerializeField]
+    private Animator playerAnimator;
+
+    private bool isMove;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +39,22 @@ public class PlayerMovement : MonoBehaviour
 
                 //Assign ray hit point as Destination of Navemesh Agent (Player)
                 playerNavMeshAgent.SetDestination(myRaycastHit.point);
+                
             }
         }
+
+        //Compare the value of the remaining distance and the stopping distance(Destination point)
+
+        if (playerNavMeshAgent.remainingDistance <= playerNavMeshAgent.stoppingDistance)
+        {
+            //The remaining distance are less or equal than the stopping distance it means character stop moving and reached destination
+            isMove = false;
+        }
+        else
+        {
+            //If remaining distance are greater than the stopping distance than character still moving toward Destination
+            isMove = true;
+        }
+        playerAnimator.SetBool("IsMove", isMove);
     }
 }

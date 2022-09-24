@@ -612,6 +612,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNavMeshAgent: {fileID: 2063676270}
   playerCamera: {fileID: 963194227}
+  playerAnimator: {fileID: 0}
+  isRunning: 0
 --- !u!195 &2063676270
 NavMeshAgent:
   m_ObjectHideFlags: 0
