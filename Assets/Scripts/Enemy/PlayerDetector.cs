@@ -1,19 +1,41 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDetector : Collider
+public class PlayerDetector : MonoBehaviour
 {
-    public bool isAvailable = false;
+    [SerializeField]
+    private Player player;
 
-    void OnCollisionEnter(Collision collision)
+    [SerializeField]
+    private List<Enemy> enemies;
+
+    [SerializeField]
+    private GameObject fightMenu;
+    
+    private void OnTriggerEnter(Collider other)
     {
-        // TODO if collison.collider Player
-        isAvailable = true;
+        if(other.gameObject == player.gameObject)
+        {
+            StartFight();
+        }
     }
 
-    void OnCollisionExit(Collision collision)
+    private void StartFight()
     {
-        isAvailable = false;
+        Fight f = fightMenu.GetComponent<Fight>();
+
+        f.SetEnemies(enemies);
+        f.SetPlayer(player);
+
+        Debug.Log(f);
+
+        f.StartFight();
+
+        GetComponent<BoxCollider>().enabled = false;
+
+        enabled = false;
     }
+
 
     // Start is called before the first frame update
     void Start()
