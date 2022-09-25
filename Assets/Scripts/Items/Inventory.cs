@@ -23,6 +23,7 @@ public class Inventory : MonoBehaviour
     public void AddItem(Item item)
     {
         items.Add(item);
+        cells.AddItem(item);
     }
 
     public void Show()
@@ -30,7 +31,7 @@ public class Inventory : MonoBehaviour
         uiInventory.SetActive(true);
         uiItemName.text = "";
         uiItemDesc.text = "";
-        cells.Show();
+        cells.ShowItems();
     }
 
     public void Hide()

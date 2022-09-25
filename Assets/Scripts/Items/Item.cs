@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
@@ -10,6 +11,13 @@ public class Item : MonoBehaviour
     [SerializeField]
     private GameObject item;
 
+    public Color Color
+    {
+        get;
+        set;
+    }
+
+
     public virtual void Use()
     {
 
@@ -17,7 +25,7 @@ public class Item : MonoBehaviour
 
     void Start()
     {
-        
+        Color = Color.black;
     }
 
     // Update is called once per frame

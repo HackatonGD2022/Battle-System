@@ -10,6 +10,26 @@ public class Cells : MonoBehaviour
     [SerializeField]
     private Cell cell;
 
+    public void ShowItems()
+    {
+        foreach(Cell cell in cells)
+        {
+            if (cell.HasItem())
+                cell.gameObject.SetActive(true);
+        }
+    }
+
+    public void AddItem(Item item)
+    {
+        foreach(Cell cell in cells)
+        {
+            if(!cell.HasItem())
+            {
+                cell.SetItem(item);
+                break;
+            }
+        }
+    }
 
     public void Show()
     {
