@@ -52,6 +52,16 @@ public class Player : MonoBehaviour
         fightMenu.HideFightMenu();
     }
 
+    public void ShowConfirmButton()
+    {
+        fightMenu.ShowConfirmButton();
+    }
+
+    public void HideConfirmButton()
+    {
+        fightMenu.HideConfirmButton();
+    }
+
     public void ShowInventory()
     {
         inventory.Show();
@@ -70,6 +80,11 @@ public class Player : MonoBehaviour
     public void Move(Vector3 point)
     {
         playerMovement.MovePlayer(point);
+    }
+
+    public Item GetSelectedItem()
+    {
+        return inventory.GetSelectedItem();
     }
 
     // Start is called before the first frame update

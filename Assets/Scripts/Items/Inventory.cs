@@ -45,10 +45,9 @@ public class Inventory : MonoBehaviour
         return uiInventory.activeSelf;
     }
 
-    public void UseItem()
+    public Item GetSelectedItem()
     {
-        if(selectedItem)
-            selectedItem.Use();
+        return selectedItem;
     }
 
     public void DropItem()

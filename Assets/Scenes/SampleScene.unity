@@ -1135,6 +1135,7 @@ MonoBehaviour:
   uiMessage: {fileID: 1982903391}
   fightMenu: {fileID: 1439577700}
   uiAPText: {fileID: 11469896}
+  uiConfirmButton: {fileID: 1375690938}
 --- !u!114 &902490159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1574,7 +1575,7 @@ MonoBehaviour:
   - {fileID: 1051296317}
   - {fileID: 1565210235}
   fightMenu: {fileID: 1439577700}
-  teleportPoint: {fileID: 0}
+  teleportPoint: {fileID: 1282858573}
 --- !u!65 &1208666565
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1721,6 +1722,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1375690938 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7633177463329688233, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
+  m_PrefabInstance: {fileID: 5380332037120262873}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1408416672 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1797415221198528, guid: f16024fa2379f1c498acbd0c8d882355, type: 3}
@@ -1760,6 +1772,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5380332036277613757, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
   m_PrefabInstance: {fileID: 5380332037120262873}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1439577701 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5380332036277613745, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
+  m_PrefabInstance: {fileID: 5380332037120262873}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439577700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f267349b355f8894e97b8551de41a06e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1505182977 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7385579634724485084, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
@@ -2660,6 +2683,10 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 2431428530103054470, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
+      propertyPath: m_Name
+      value: ConfirmButton
+      objectReference: {fileID: 0}
     - target: {fileID: 3764422708831413333, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -26.9
@@ -2767,14 +2794,14 @@ PrefabInstance:
     - target: {fileID: 6861800978803421769, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 902490159}
+      objectReference: {fileID: 1439577701}
     - target: {fileID: 6861800978803421769, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UseItem
+      value: ClickUse
       objectReference: {fileID: 0}
     - target: {fileID: 6861800978803421769, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Inventory, Assembly-CSharp
+      value: Fight, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7385579634724485084, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
       propertyPath: m_fontColor.b
@@ -2791,6 +2818,14 @@ PrefabInstance:
     - target: {fileID: 7385579634724485084, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4278254335
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633177463329688233, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1439577701}
+    - target: {fileID: 7633177463329688233, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ConfirmUse
       objectReference: {fileID: 0}
     - target: {fileID: 8044199215328273335, guid: 8224ebd07e0fd8e46aad48601d790a9b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

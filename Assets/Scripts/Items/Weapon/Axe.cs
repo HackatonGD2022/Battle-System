@@ -5,7 +5,7 @@ using UnityEngine;
 public class Axe : Item
 {
 
-    public override void Use()
+    public override void Use(GameObject entity)
     {
         
     }

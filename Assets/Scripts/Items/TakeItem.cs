@@ -34,7 +34,7 @@ public class TakeItem : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (canTake && Input.GetKeyDown(KeyCode.E))
         {

@@ -31,7 +31,7 @@ public class Item : MonoBehaviour
         return desc;
     }
 
-    public virtual void Use()
+    public virtual void Use(GameObject entity)
     {
 
     }

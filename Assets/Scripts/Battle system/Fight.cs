@@ -9,6 +9,7 @@ public class Fight : MonoBehaviour
         ATTACK,
         INVENTORY,
         MOVE,
+        USE
     };
 
     private Queue<GameObject> moveQueue = new Queue<GameObject>();
@@ -141,6 +142,12 @@ public class Fight : MonoBehaviour
                     return false;
                 player.HideInventory();
                 break;
+
+            case State.USE:
+                if (newState == State.USE)
+                    return false;
+                player.HideConfirmButton();
+                break;
         }
 
         switch (newState)
@@ -158,6 +165,12 @@ public class Fight : MonoBehaviour
                 state = State.INVENTORY;
                 player.ShowInventory();
                 break;
+
+            case State.USE:
+                state = State.USE;
+                player.HideInventory();
+                player.ShowConfirmButton();
+                break;
         }
 
         return true;
@@ -171,6 +184,25 @@ public class Fight : MonoBehaviour
             Destroy(enemy.gameObject);
         }
         enemyList.Clear();
+    }
+
+    public void ClickUse()
+    {
+        ChangeState(State.USE);
+    }
+
+    public void ConfirmUse()
+    {
+        Item item = player.GetSelectedItem();
+        item.Use(selectedEnemy.gameObject);
+        Destroy(item.gameObject);
+
+        if (selectedEnemy.Stats.IsDied())
+        {
+            enemyList.Remove(selectedEnemy);
+            selectedEnemy.OnDeath(this);
+            Destroy(selectedEnemy.gameObject);
+        }
     }
 
     public void ClickFight()
@@ -254,6 +286,7 @@ public class Fight : MonoBehaviour
         {
             switch (state)
             {
+                case State.USE:
                 case State.ATTACK:
                     {
                         if (Input.GetMouseButtonDown(0))
@@ -295,6 +328,8 @@ public class Fight : MonoBehaviour
                         }
                     }
                     break;
+
+                
             }
         }
     }

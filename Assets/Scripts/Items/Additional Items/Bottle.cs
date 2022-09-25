@@ -6,9 +6,10 @@ public class Bottle : Item
 {
 
 
-    public override void Use() 
+    public override void Use(GameObject entity) 
     {
-
+        Enemy en = entity.GetComponent<Enemy>();
+        en.Stats.TakeDamage(2);
     }
     // Start is called before the first frame update
     void Start()

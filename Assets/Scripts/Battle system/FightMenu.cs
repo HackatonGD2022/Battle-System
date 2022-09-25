@@ -19,6 +19,9 @@ public class FightMenu : MonoBehaviour
 
     [SerializeField]
     private TMPro.TextMeshProUGUI uiAPText;
+
+    [SerializeField]
+    private Button uiConfirmButton;
     
     private Player player;
 
@@ -33,6 +36,16 @@ public class FightMenu : MonoBehaviour
         fightMenu.SetActive(false);
     }
 
+    public void ShowConfirmButton()
+    {
+        uiConfirmButton.gameObject.SetActive(true);
+    }
+
+    public void HideConfirmButton()
+    {
+        uiConfirmButton.gameObject.SetActive(false);
+    }
+
     public void SetMessage(string text)
     {
         uiMessage.text = text;
@@ -42,6 +55,7 @@ public class FightMenu : MonoBehaviour
     void Start()
     {
         player = GetComponent<Player>();
+        HideConfirmButton();
     }
 
     // Update is called once per frame
@@ -57,14 +71,11 @@ public class FightMenu : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(fightMenu.activeSelf)
-        {
-            Stats stats = player.Stats;
-            uiHealthText.text = stats.Health.ToString();
-            uiHealth.maxValue = stats.Health;
-            uiHealth.value = stats.Health;
+        Stats stats = player.Stats;
+        uiHealthText.text = stats.Health.ToString();
+        uiHealth.maxValue = stats.Health;
+        uiHealth.value = stats.Health;
 
-            uiAPText.text = $"нд: {stats.ActionPoints}";
-        }
+        uiAPText.text = $"нд: {stats.ActionPoints}";
     }
 }
