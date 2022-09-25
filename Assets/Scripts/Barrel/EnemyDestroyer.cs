@@ -1,4 +1,6 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class EnemyDestroyer : MonoBehaviour
 {
@@ -11,5 +13,6 @@ public class EnemyDestroyer : MonoBehaviour
         {
             Destroy(enemy);
         }
+        Destroy(gameObject);
     }
 }
