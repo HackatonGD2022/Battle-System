@@ -207,6 +207,13 @@ public class Fight : MonoBehaviour
         {
             player.Stats.ActionPoints -= 2;
             Item item = player.GetSelectedItem();
+
+            if(item.GetType() == typeof(Potion))
+            {
+                item.Use(player.gameObject);
+                return;
+            }
+
             item.Use(selectedEnemy.gameObject);
 
             if (selectedEnemy.Stats.IsDied())
