@@ -49,7 +49,7 @@ public class Cells : MonoBehaviour
         {
             for (int j = 0; j < 9; j++)
             {
-                cells.Add(Instantiate(cell, cell.transform.position + new Vector3(j * 50, -i * 43, 0), Quaternion.identity, gameObject.transform));
+                cells.Add(Instantiate(cell, cell.transform.position + new Vector3(j * 120, -i * 106, 0), Quaternion.identity, gameObject.transform));
                 cells[i].gameObject.SetActive(false);
             }
         }

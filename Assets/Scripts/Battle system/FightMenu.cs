@@ -56,6 +56,8 @@ public class FightMenu : MonoBehaviour
     {
         player = GetComponent<Player>();
         HideConfirmButton();
+
+        uiHealth.maxValue = 10;
     }
 
     // Update is called once per frame
@@ -73,7 +75,6 @@ public class FightMenu : MonoBehaviour
     {
         Stats stats = player.Stats;
         uiHealthText.text = stats.Health.ToString();
-        uiHealth.maxValue = stats.Health;
         uiHealth.value = stats.Health;
 
         uiAPText.text = $"нд: {stats.ActionPoints}";

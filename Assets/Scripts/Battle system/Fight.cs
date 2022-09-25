@@ -47,6 +47,7 @@ public class Fight : MonoBehaviour
 
         SetQueue();
         player.SetMessage("Битва началась");
+        player.Stats.ResetPoints();
     }
 
     public void SetQueue()
@@ -144,9 +145,12 @@ public class Fight : MonoBehaviour
                 break;
 
             case State.INVENTORY:
-                if (newState == State.INVENTORY)
-                    return false;
                 player.HideInventory();
+                if (newState == State.INVENTORY)
+                {
+                    state = State.ATTACK;
+                    return false;
+                }
                 break;
 
             case State.USE:
@@ -273,6 +277,7 @@ public class Fight : MonoBehaviour
         else
         {
             playerTurn = false;
+            ChangeState(State.ATTACK);
             // Disable selection light of enemy.
             selectedEnemy.GetComponent<Light>().enabled = false;
             selectedEnemy = null;
@@ -380,6 +385,7 @@ public class Fight : MonoBehaviour
 
     private void StopFight()
     {
+        ChangeState(State.ATTACK);
         player.StartWalk();
         player.HideFightMenu();
     }
