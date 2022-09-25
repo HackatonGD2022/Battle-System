@@ -122,9 +122,54 @@ public class Fight : MonoBehaviour
 
     }
 
+    private bool ChangeState(State newState)
+    {
+        switch(state)
+        {
+            case State.ATTACK:
+                if (newState == State.ATTACK)
+                    return false;
+                // TODO: clear selection;
+                break;
+
+            case State.MOVE:
+                if (newState == State.MOVE)
+                    return false;
+                player.MoveCircle.SetActive(false);
+                break;
+
+            case State.INVENTORY:
+                if (newState == State.INVENTORY)
+                    return false;
+                player.HideInventory();
+                break;
+        }
+
+        switch (newState)
+        {
+            case State.ATTACK:
+                state = State.ATTACK;
+                break;
+
+            case State.MOVE:
+                state = State.MOVE;
+                player.MoveCircle.SetActive(true);
+                break;
+
+            case State.INVENTORY:
+                state = State.INVENTORY;
+                player.ShowInventory();
+                break;
+        }
+
+        return true;
+    }
+
     public void ClickFight()
     {
-        Debug.Log("ClickFight");
+        if (ChangeState(State.ATTACK))
+            return;
+
         Attack(player.Stats, selectedEnemy.Stats);
 
         if(selectedEnemy.Stats.IsDied())
@@ -136,12 +181,12 @@ public class Fight : MonoBehaviour
 
     public void ClickMove()
     {
-        state = State.MOVE;
+        ChangeState(State.MOVE);
     }
 
     public void ClickInventory()
     {
-        state = State.INVENTORY;
+        ChangeState(State.INVENTORY);
     }
 
     public void FinishTurn()
@@ -227,7 +272,19 @@ public class Fight : MonoBehaviour
                     break;
 
                 case State.MOVE:
-
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        RaycastHit hitInfo = new RaycastHit();
+                        bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
+                        if (hit)
+                        {
+                            if (hitInfo.transform.gameObject == player.MoveCircle)
+                            {
+                                player.Move(hitInfo.point);
+                                player.Stats.ActionPoints -= 1;
+                            }
+                        }
+                    }
                     break;
             }
         }

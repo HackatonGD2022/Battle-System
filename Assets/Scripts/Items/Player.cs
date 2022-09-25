@@ -9,18 +9,26 @@ public class Player : MonoBehaviour
 
     private Stats stats;
 
-    private LinkedList<Item> items = new LinkedList<Item>();
+    private Inventory inventory;
 
     private FightMenu fightMenu;
+
+    [SerializeField]
+    private GameObject moveCircle;
 
     public Stats Stats
     {
         get { return stats; }
     }
 
+    public GameObject MoveCircle
+    {
+        get { return moveCircle; }
+    }
+
     public void AddItem(Item item)
     {
-        items.AddLast(item);
+        inventory.AddItem(item);
         fightMenu.SetMessage("Добавлено: " + item.ToString());
     }
 
@@ -44,11 +52,25 @@ public class Player : MonoBehaviour
         fightMenu.HideFightMenu();
     }
 
+    public void ShowInventory()
+    {
+        inventory.Show();
+    }
+
+    public void HideInventory()
+    {
+        inventory.Hide();
+    }
+
     public void SetMessage(string text)
     {
         fightMenu.SetMessage(text);
     }
 
+    public void Move(Vector3 point)
+    {
+        playerMovement.MovePlayer(point);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +78,10 @@ public class Player : MonoBehaviour
         stats = GetComponent<Stats>();
         playerMovement = GetComponent<PlayerMovement>();
         fightMenu = GetComponent<FightMenu>();
+        inventory = GetComponent<Inventory>();
         HideFightMenu();
+        HideInventory();
+        MoveCircle.SetActive(false);
     }
 
     // Update is called once per frame
@@ -64,19 +89,20 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            PrintAllItems();
+            if(!inventory.IsActive())
+            {
+                StopWalk();
+                ShowInventory();
+            }
+            else
+            {
+                StartWalk();
+                HideInventory();
+            }
         }
     }
 
     private void FixedUpdate()
     {
-    }
-
-    private void PrintAllItems()
-    {
-        foreach(Item item in items)
-        {
-            Debug.Log(item);
-        }
     }
 }

@@ -20,9 +20,6 @@ public class FightMenu : MonoBehaviour
     [SerializeField]
     private TMPro.TextMeshProUGUI uiAPText;
     
-    [SerializeField]
-    private TMPro.TextMeshProUGUI uiMPText;
-
     private Player player;
 
 
@@ -68,7 +65,6 @@ public class FightMenu : MonoBehaviour
             uiHealth.value = stats.Health;
 
             uiAPText.text = $"нд: {stats.ActionPoints}";
-            uiMPText.text = $"но: {stats.MovePoints}";
         }
     }
 }

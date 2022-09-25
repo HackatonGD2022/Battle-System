@@ -31,13 +31,13 @@ public class PlayerMovement : MonoBehaviour
         playerNavMeshAgent.ResetPath();
         isMove = false;
         playerAnimator.SetBool("IsMove", isMove);
-        playerNavMeshAgent.isStopped = stopped;
+        //playerNavMeshAgent.isStopped = stopped;
     }
 
     public void StartWalk()
     {
         stopped = false;
-        playerNavMeshAgent.isStopped = stopped;
+        //playerNavMeshAgent.isStopped = stopped;
         playerNavMeshAgent.ResetPath();
     }
 
@@ -64,20 +64,19 @@ public class PlayerMovement : MonoBehaviour
                     playerNavMeshAgent.SetDestination(myRaycastHit.point);
                 }
             }
-
-            //Compare the value of the remaining distance and the stopping distance(Destination point)
-
-            if (playerNavMeshAgent.remainingDistance <= playerNavMeshAgent.stoppingDistance)
-            {
-                //The remaining distance are less or equal than the stopping distance it means character stop moving and reached destination
-                isMove = false;
-            }
-            else
-            {
-                //If remaining distance are greater than the stopping distance than character still moving toward Destination
-                isMove = true;
-            }
-            playerAnimator.SetBool("IsMove", isMove);
         }
+
+        //Compare the value of the remaining distance and the stopping distance(Destination point)
+        if (playerNavMeshAgent.remainingDistance <= playerNavMeshAgent.stoppingDistance)
+        {
+            //The remaining distance are less or equal than the stopping distance it means character stop moving and reached destination
+            isMove = false;
+        }
+        else
+        {
+            //If remaining distance are greater than the stopping distance than character still moving toward Destination
+            isMove = true;
+        }
+        playerAnimator.SetBool("IsMove", isMove);
     }
 }
