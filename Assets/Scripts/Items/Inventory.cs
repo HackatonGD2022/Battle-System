@@ -17,9 +17,13 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private TMPro.TextMeshProUGUI uiItemDesc;
 
+    [SerializeField]
+    private Cells cells;
+
     public void AddItem(Item item)
     {
         items.Add(item);
+        cells.AddItem(item);
     }
 
     public void Show()
@@ -27,11 +31,13 @@ public class Inventory : MonoBehaviour
         uiInventory.SetActive(true);
         uiItemName.text = "";
         uiItemDesc.text = "";
+        cells.ShowItems();
     }
 
     public void Hide()
     {
         uiInventory.SetActive(false);
+        cells.Hide();
     }
 
     public bool IsActive()
