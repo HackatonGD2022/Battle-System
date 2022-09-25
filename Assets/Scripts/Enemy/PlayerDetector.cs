@@ -11,6 +11,9 @@ public class PlayerDetector : MonoBehaviour
 
     [SerializeField]
     private GameObject fightMenu;
+
+    [SerializeField]
+    private GameObject teleportPoint;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -22,6 +25,8 @@ public class PlayerDetector : MonoBehaviour
 
     private void StartFight()
     {
+        player.transform.position = teleportPoint.transform.position;
+
         Fight f = fightMenu.GetComponent<Fight>();
 
         f.SetEnemies(enemies);

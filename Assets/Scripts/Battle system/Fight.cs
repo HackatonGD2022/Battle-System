@@ -37,8 +37,6 @@ public class Fight : MonoBehaviour
     {
         player.StopWalk();
 
-        player.transform.position = enemyList[0].getTeleportPoint().transform.position;
-
         player.ShowFightMenu();
 
         state = State.ATTACK;
@@ -165,6 +163,16 @@ public class Fight : MonoBehaviour
         return true;
     }
 
+    public void KillAll()
+    {
+        foreach(Enemy enemy in enemyList)
+        {
+            enemy.OnDeath(this);
+            Destroy(enemy.gameObject);
+        }
+        enemyList.Clear();
+    }
+
     public void ClickFight()
     {
         if (ChangeState(State.ATTACK))
@@ -175,6 +183,7 @@ public class Fight : MonoBehaviour
         if(selectedEnemy.Stats.IsDied())
         {
             enemyList.Remove(selectedEnemy);
+            selectedEnemy.OnDeath(this);
             Destroy(selectedEnemy.gameObject);
         }
     }

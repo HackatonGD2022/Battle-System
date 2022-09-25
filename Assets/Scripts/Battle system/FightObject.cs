@@ -2,18 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class FightObject : Enemy
 {
-    protected Stats stats;
-
-    public Stats Stats
+    public override void OnDeath(Fight fight)
     {
-        get { return stats; }
-    }
-
-    public virtual void OnDeath(Fight fight)
-    {
-
+        fight.KillAll();
     }
 
     // Start is called before the first frame update
