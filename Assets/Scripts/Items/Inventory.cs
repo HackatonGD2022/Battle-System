@@ -56,6 +56,13 @@ public class Inventory : MonoBehaviour
         Destroy(selectedItem);
     }
 
+    public void SelectItem(Item item)
+    {
+        selectedItem = item;
+        uiItemName.text = item.GetTitle();
+        uiItemDesc.text = item.GetDesc();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

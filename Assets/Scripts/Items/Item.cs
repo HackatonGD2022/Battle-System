@@ -5,18 +5,31 @@ using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
-    private string title;
-    private string decs;
+    protected string title;
+    protected string desc;
+    protected Color color;
 
     [SerializeField]
     private GameObject item;
 
-    public Color Color
+    public Color GetColor()
     {
-        get;
-        set;
+        return color;
     }
 
+    public virtual string GetTitle()
+    {
+        if(title == null)
+            return item.name;
+        return title;
+    }
+
+    public virtual string GetDesc()
+    {
+        if (desc == null)
+            return "";
+        return desc;
+    }
 
     public virtual void Use()
     {
@@ -25,7 +38,6 @@ public class Item : MonoBehaviour
 
     void Start()
     {
-        Color = Color.black;
     }
 
     // Update is called once per frame
