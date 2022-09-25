@@ -35,7 +35,7 @@ public class Fight : MonoBehaviour
 
     public void StartFight()
     {
-        player.GetComponent<PlayerMovement>().StopPlayer();
+        player.StopWalk();
 
         player.transform.position = enemyList[0].getTeleportPoint().transform.position;
 
@@ -60,6 +60,7 @@ public class Fight : MonoBehaviour
 
     private void Attack(Stats objOne, Stats objTwo)
     {
+        // TODO: check action points.
         objOne.ActionPoints -= 1;
 
         int takeDamage = Random.Range(0, 100);
@@ -124,7 +125,13 @@ public class Fight : MonoBehaviour
     public void ClickFight()
     {
         Debug.Log("ClickFight");
-        Attack(player.GetComponent<Stats>(), selectedEnemy.GetComponent<Stats>());
+        Attack(player.Stats, selectedEnemy.Stats);
+
+        if(selectedEnemy.Stats.IsDied())
+        {
+            enemyList.Remove(selectedEnemy);
+            Destroy(selectedEnemy.gameObject);
+        }
     }
 
     public void ClickMove()
@@ -141,21 +148,29 @@ public class Fight : MonoBehaviour
     {
         GameObject gameObject = moveQueue.Dequeue();
 
+        if (gameObject != null)
+            return;
+
         moveQueue.Enqueue(gameObject);
         if(!playerTurn)
         {
             if (gameObject.GetComponent<Player>())
             {
                 playerTurn = true;
+                player.Stats.ResetPoints();
             }
             else
             {
                 selectedEnemy = gameObject.GetComponent<Enemy>();
+                selectedEnemy.GetComponent<Light>().enabled = true;
+                selectedEnemy.Stats.ResetPoints();
             }
         }
         else
         {
             playerTurn = false;
+            // Disable selection light of enemy.
+            selectedEnemy.GetComponent<Light>().enabled = false;
             selectedEnemy = null;
         }
     }
@@ -165,10 +180,8 @@ public class Fight : MonoBehaviour
         var isSomeoneAlive = false;
         foreach (Enemy enemy in enemyList)
         {
-            if (!enemy.GetComponent<Stats>().IsDied())
-            {
+            if (enemy)
                 isSomeoneAlive = true;
-            }
         }
         return isSomeoneAlive;
     }
@@ -201,7 +214,8 @@ public class Fight : MonoBehaviour
                                     if (enemy == hitInfo.transform.gameObject.GetComponent<Enemy>())
                                     {
                                         Debug.Log("Hit " + hitInfo.transform);
-                                        selectedEnemy.GetComponent<Light>().enabled = false;
+                                        if(selectedEnemy)
+                                            selectedEnemy.GetComponent<Light>().enabled = false;
                                         selectedEnemy = enemy;
                                         selectedEnemy.GetComponent<Light>().enabled = true;
                                     }
@@ -210,6 +224,10 @@ public class Fight : MonoBehaviour
                         }
 
                     }
+                    break;
+
+                case State.MOVE:
+
                     break;
             }
         }
@@ -221,14 +239,22 @@ public class Fight : MonoBehaviour
             if(selectedEnemy)
             {
                 Attack(selectedEnemy.GetComponent<Stats>(), player.GetComponent<Stats>());
+                if(player.Stats.IsDied())
+                    player.SetMessage("Скелеты победили");
             }
             FinishTurn();
         }
 
-        if (player.GetComponent<Stats>().IsDied())
-            player.SetMessage("Скелеты победили");
-
         if (!HasAliveEnemy())
+        {
             player.SetMessage("Игрок победил");
+            StopFight();
+        }
+    }
+
+    private void StopFight()
+    {
+        player.StartWalk();
+        player.HideFightMenu();
     }
 }

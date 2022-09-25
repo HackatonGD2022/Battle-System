@@ -8,8 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private NavMeshAgent playerNavMeshAgent;
 
-    //A Camera that follow player movement
-
+    // A Camera that follow player movement
     [SerializeField]
     private Camera playerCamera;
 
@@ -26,13 +25,20 @@ public class PlayerMovement : MonoBehaviour
         stopped = false;
     }
 
-    public void StopPlayer()
+    public void StopWalk()
     {
         stopped = true;
         playerNavMeshAgent.ResetPath();
         isMove = false;
         playerAnimator.SetBool("IsMove", isMove);
         playerNavMeshAgent.isStopped = stopped;
+    }
+
+    public void StartWalk()
+    {
+        stopped = false;
+        playerNavMeshAgent.isStopped = stopped;
+        playerNavMeshAgent.ResetPath();
     }
 
     public void MovePlayer(Vector3 position)

@@ -5,50 +5,57 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private TMPro.TextMeshProUGUI uiHealthText;
-
-    [SerializeField]
-    private Slider uiHealth;
-
-    [SerializeField]
-    private TMPro.TextMeshProUGUI uiMessage;
-
-    [SerializeField]
-    private GameObject fightMenu;
+    private PlayerMovement playerMovement;
 
     private Stats stats;
 
     private LinkedList<Item> items = new LinkedList<Item>();
 
+    private FightMenu fightMenu;
+
+    public Stats Stats
+    {
+        get { return stats; }
+    }
+
     public void AddItem(Item item)
     {
-        SetMessage("Добавлено: " + item.ToString());
         items.AddLast(item);
+        fightMenu.SetMessage("Добавлено: " + item.ToString());
+    }
+
+    public void StopWalk()
+    {
+        playerMovement.StopWalk();
+    }
+
+    public void StartWalk()
+    {
+        playerMovement.StartWalk();
     }
 
     public void ShowFightMenu()
     {
-        fightMenu.SetActive(true);
+        fightMenu.ShowFightMenu();
     }
 
     public void HideFightMenu()
     {
-        fightMenu.SetActive(false);
+        fightMenu.HideFightMenu();
     }
 
     public void SetMessage(string text)
     {
-        uiMessage.text = text;
+        fightMenu.SetMessage(text);
     }
+
 
     // Start is called before the first frame update
     void Start()
     {
         stats = GetComponent<Stats>();
-        uiHealthText.text = stats.Health.ToString();
-        uiHealth.maxValue = stats.Health;
-        uiHealth.value = stats.Health;
+        playerMovement = GetComponent<PlayerMovement>();
+        fightMenu = GetComponent<FightMenu>();
         HideFightMenu();
     }
 
@@ -63,8 +70,6 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        uiHealth.value = stats.Health;
-        uiHealthText.text = stats.Health.ToString();
     }
 
     private void PrintAllItems()

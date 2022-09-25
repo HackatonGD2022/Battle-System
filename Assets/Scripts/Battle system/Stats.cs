@@ -36,7 +36,7 @@ public class Stats : MonoBehaviour
 
     public int MovePoints
     {
-        get { return MovePoints; }
+        get { return movePoints; }
         set { movePoints = value; }
     }
 
@@ -59,6 +59,12 @@ public class Stats : MonoBehaviour
             gameObject.SetActive(false);
             died = true;
         }
+    }
+
+    public void ResetPoints()
+    {
+        movePoints = 2;
+        actionPoints = 2;
     }
 
     // Start is called before the first frame update

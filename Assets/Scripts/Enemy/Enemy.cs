@@ -8,6 +8,13 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject teleportPoint;
 
+    private Stats stats;
+
+    public Stats Stats
+    {
+        get { return stats; }
+    }
+
     public GameObject getTeleportPoint()
     {
         return teleportPoint;
@@ -16,7 +23,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        stats = GetComponent<Stats>();
     }
 
     // Update is called once per frame
