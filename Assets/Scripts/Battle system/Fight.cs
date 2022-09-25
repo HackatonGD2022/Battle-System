@@ -53,13 +53,19 @@ public class Fight : MonoBehaviour
     {
         moveQueue.Enqueue(player.gameObject);
         foreach (Enemy enemy in enemyList)
+        {
+            if (enemy.GetType() == typeof(FightObject))
+                continue;
             moveQueue.Enqueue(enemy.gameObject);
+        }    
         playerTurn = true;
     }
 
     private void Attack(Stats objOne, Stats objTwo)
     {
-        // TODO: check action points.
+        if (objOne.ActionPoints < 1)
+            return;
+
         objOne.ActionPoints -= 1;
 
         int takeDamage = Random.Range(0, 100);
@@ -193,22 +199,34 @@ public class Fight : MonoBehaviour
 
     public void ConfirmUse()
     {
-        Item item = player.GetSelectedItem();
-        item.Use(selectedEnemy.gameObject);
-        Destroy(item.gameObject);
-
-        if (selectedEnemy.Stats.IsDied())
+        if (player.Stats.ActionPoints >= 2)
         {
-            enemyList.Remove(selectedEnemy);
-            selectedEnemy.OnDeath(this);
-            Destroy(selectedEnemy.gameObject);
+            player.Stats.ActionPoints -= 2;
+            Item item = player.GetSelectedItem();
+            item.Use(selectedEnemy.gameObject);
+
+            if (selectedEnemy.Stats.IsDied())
+            {
+                enemyList.Remove(selectedEnemy);
+                selectedEnemy.OnDeath(this);
+                Destroy(selectedEnemy.gameObject);
+            }
         }
+        else
+            player.SetMessage("Недостаточно очков действий");
+
     }
 
     public void ClickFight()
     {
         if (ChangeState(State.ATTACK))
             return;
+
+        if(player.Stats.ActionPoints < 1)
+        {
+            player.SetMessage("Недостаточно очков действий");
+            return;
+        }
 
         Attack(player.Stats, selectedEnemy.Stats);
 
@@ -234,7 +252,7 @@ public class Fight : MonoBehaviour
     {
         GameObject gameObject = moveQueue.Dequeue();
 
-        if (gameObject != null)
+        if (gameObject == null)
             return;
 
         moveQueue.Enqueue(gameObject);
@@ -248,7 +266,7 @@ public class Fight : MonoBehaviour
             else
             {
                 selectedEnemy = gameObject.GetComponent<Enemy>();
-                selectedEnemy.GetComponent<Light>().enabled = true;
+                //selectedEnemy.GetComponent<Light>().enabled = true;
                 selectedEnemy.Stats.ResetPoints();
             }
         }
@@ -266,8 +284,9 @@ public class Fight : MonoBehaviour
         var isSomeoneAlive = false;
         foreach (Enemy enemy in enemyList)
         {
-            if (enemy)
-                isSomeoneAlive = true;
+            if (enemy.GetType() == typeof(FightObject))
+                continue;
+            isSomeoneAlive = true;
         }
         return isSomeoneAlive;
     }
@@ -322,14 +341,17 @@ public class Fight : MonoBehaviour
                         {
                             if (hitInfo.transform.gameObject == player.MoveCircle)
                             {
-                                player.Move(hitInfo.point);
-                                player.Stats.ActionPoints -= 1;
+                                if (player.Stats.ActionPoints > 1)
+                                {
+                                    player.Stats.ActionPoints -= 1;
+                                    player.Move(hitInfo.point);
+                                }
+                                else
+                                    player.SetMessage("Недостаточно очков действий");
                             }
                         }
                     }
                     break;
-
-                
             }
         }
     }
@@ -339,9 +361,12 @@ public class Fight : MonoBehaviour
         {
             if(selectedEnemy)
             {
+                //selectedEnemy.GetComponent<Light>().enabled = true;
                 Attack(selectedEnemy.GetComponent<Stats>(), player.GetComponent<Stats>());
                 if(player.Stats.IsDied())
                     player.SetMessage("Скелеты победили");
+
+                //selectedEnemy.GetComponent<Light>().enabled = false;
             }
             FinishTurn();
         }

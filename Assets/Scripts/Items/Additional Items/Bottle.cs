@@ -10,6 +10,7 @@ public class Bottle : Item
     {
         Enemy en = entity.GetComponent<Enemy>();
         en.Stats.TakeDamage(2);
+        Destroy(gameObject);
     }
     // Start is called before the first frame update
     void Start()
